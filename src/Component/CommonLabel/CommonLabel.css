@@ -1,0 +1,16 @@
+.labelInsideField {
+  /* font-family: Saira !important; */
+  font-size: 16px !important;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  /* margin-top: 16px !important; */
+  color: rgb(68, 66, 66);
+}
+.mandatory {
+  color: #e31837 !important;
+  padding-left: 4px;
+  display: inline-block;
+}
+

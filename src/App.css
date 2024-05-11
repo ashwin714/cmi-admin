@@ -1,0 +1,322 @@
+/* body {
+    background-image: url(../src/Assets//Images/bg.jpg);
+    background-size: cover;
+  } */
+  .headerBackground{
+    background-color: #fff !important;
+  }
+  .MuiTab-textColorPrimary {
+    color: #e31837;
+  }
+  .css-1pv7n5u .MuiDrawer-paper{
+    margin-top: 68px;
+  }
+  .custompanel > div {
+    padding: 24px 0px !important;
+  }
+  
+  .custombody button.MuiTab-textColorPrimary {
+    align-items: flex-start;
+    border-bottom: #dadada 1px solid;
+    position: relative !important;
+    padding: 15px !important;
+  }
+  
+  .logoimg {
+    height: 100px;
+  }
+  
+  .tophead {
+    margin-bottom: 30px;
+  }
+  
+  .tophead .headercustom {
+    background: #f0c52f;
+    /* background-image: linear-gradient(90deg, rgba(0, 0, 0, .32), transparent), linear-gradient(180deg, #db233a, #db233a); */
+    /* padding: 15px; */
+  }
+  
+  .formfield label {
+    display: block;
+    /* margin-bottom: 10px; */
+  }
+  
+  .formfield {
+    padding-top: 8px;
+    margin-bottom: 5px;
+  }
+  
+  .MuiStepLabel-vertical {
+    background: #dadada;
+    padding: 10px !important;
+  }
+  
+  .smalltext {
+    font-size: 12px;
+  }
+  
+  /* .MuiTabs-vertical {
+    min-width: 200px;
+  } */
+  
+  /* .MuiTabs-flexContainer.MuiTabs-flexContainerVertical.css-lfwcke-MuiTabs-flexContainer {
+    border: #dadada 1px solid;
+  } */
+  
+  .lefttab {
+    border: #dadada 1px solid;
+  }
+  
+  /* .css-jpln7h-MuiTabs-scroller {
+    border: #dadada 1px solid;
+  } */
+  
+  div#vertical-tabpanel-0 {
+    width: 100%;
+  }
+  
+  .customdropdown {
+    width: 60%;
+  }
+  a {
+    color: #1976d2;
+  }
+  /* .headorBackground {
+    background-color: #ffffff !important;
+  } */
+  .css-1q39md6-MuiButtonBase-root-MuiButton-root {
+    color: rgb(0 0 0 / 87%) !important;
+  }
+  /* .whiteBg {
+    background-color: #fff;
+  } */
+  .successStatus {
+    width: 20px;
+    height: 20px;
+    background: green;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  .errorStatus {
+    width: 20px;
+    height: 20px;
+    background: #d32f2f;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  
+  .inputpadding  {
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+  }
+  .datewidth div {
+    width: 100% !important;
+  }
+  .datewidth button {
+    margin-left: auto !important;
+  }
+  .datewidth input {
+    width: 300% !important;
+  }
+  .StepperContainer-0-2-1 {
+    padding: 10px !important;
+  }
+  .css-eozd4h-MuiAutocomplete-root .MuiOutlinedInput-root {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+  /* .css-qm9mjt-MuiAutocomplete-root .MuiOutlinedInput-root .MuiAutocomplete-input {
+    padding: 7.5px 4px 7.5px 6px !important;
+    height: 0.4375em !important;
+  } */
+  
+  .formHeight1 {
+    height: 326px !important;
+    overflow-y: auto !important;
+    /* overflow: visible; */
+  }
+  .formHeight2 {
+    height: 405px !important;
+    overflow-y: auto !important;
+  }
+  .formHeight3 {
+    height: 300px !important;
+    overflow-y: auto !important;
+  }
+  .formHeight4 {
+    height: 397px !important;
+    overflow-y: auto !important;
+  }
+  .text-center {
+    text-align: center !important;
+    font-weight: 600;
+    margin-left: 10px;
+    padding: 10px;
+  }
+  .margin-b-0 {
+    margin-bottom: 0px !important;
+  }
+  .label-head {
+    font-weight: 700;
+    margin-right: 5px;
+  }
+  .StepButton-0-2-4 {
+    width: 2em;
+    border: none;
+    cursor: pointer;
+    height: 2em;
+    margin: 0px;
+    display: flex;
+    padding: 0px;
+    font-size: 1em;
+    align-items: center;
+    border-radius: 50%;
+    justify-content: center;
+    background-color: rgb(224, 224, 224);
+  }
+  .ConnectorContainer-0-2-20 {
+    top: calc((2em - 1px) / 2);
+    left: calc((-50% + 2em) - 8px);
+    right: calc((50% + 2em em) - 8px);
+    position: absolute;
+  }
+  .Connector-0-2-21 {
+    display: block;
+    border-color: rgb(189, 189, 189);
+    border-top-style: solid;
+    border-top-width: 1px;
+  }
+  .css-aym9vq-MuiButtonBase-root-MuiTab-root {
+    min-height: auto !important;
+  }
+  /* .MuiButtonBase-root{
+    position: relative !important;
+  } */
+  .custombody button.MuiTab-textColorPrimary svg {
+    position: absolute !important;
+    right: 12px;
+    top: 10px;
+  }
+  .css-kw0y8f-MuiSvgIcon-root {
+    color: rgb(0 0 0 / 54%) !important;
+  }
+  th {
+    font-weight: bold !important;
+  }
+  .padLeft {
+    padding-left: 0px !important;
+  }
+  .bg_img {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    overflow-y: auto;
+  }
+  /* .form-control {
+    font-family: system-ui, sans-serif;
+    font-size: 2rem;
+    font-weight: bold;
+    line-height: 1.1;
+    display: grid;
+    grid-template-columns: 1em auto;
+    gap: 0.5em;
+  } */
+  .input-euro {
+    position: relative;
+}
+.input-euro.right input {
+    padding-right:18px;
+    text-align:end; 
+}
+
+.input-euro:before {
+    position: absolute;
+    top: 0;
+    content:"%";
+}
+.input-euro.right:before {
+    right: 5px;
+}
+.daypqs{
+  background-color: #fff !important;
+  padding: 0rem !important;
+  margin-bottom: 0rem !important;
+}
+.ljNGXc, .ljNGXc:visited{
+  color: rgb(209 17 23) !important;
+  font-weight: bold !important;
+  font-size: 14px !important;
+}
+.sc-AxirZ div svg path{
+  fill: rgb(209 17 23) !important;
+  fill-opacity: 1 !important;
+
+}
+.file-control{
+  font: inherit;
+  letter-spacing: inherit;
+  color: currentColor;
+  padding: 4px 0 5px;
+  border: 0;
+  box-sizing: content-box;
+  background: none;
+  height: 1.4375em;
+  margin: 0;
+  -webkit-tap-highlight-color: transparent;
+  display: block;
+  min-width: 0;
+  width: 100%;
+  -webkit-animation-name: mui-auto-fill-cancel;
+  animation-name: mui-auto-fill-cancel;
+  -webkit-animation-duration: 10ms;
+  animation-duration: 10ms;
+  padding: 16.5px 14px;
+}
+.fileUpload {
+  background-color: #fff;
+  color: rgba(0, 0, 0, 0.87);
+  -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  border-radius: 4px;
+  box-shadow: 0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+.myCheckbox .MuiFormControlLabel-label{
+  font-weight: bold;
+}
+.StepButton-d6-0-2-18.active, .StepButton-d2-0-2-8.active {
+  background-color: rgb(219 2 6) !important;
+}
+.StepButton-d6-0-2-18.completed, .StepButton-d2-0-2-8.completed {
+  background-color: rgb(219 2 6) !important;
+}
+.activeMenue {
+  background-color: #0171a3 !important;
+  color: #fff;
+  display: block;
+  font-weight: bold;
+  text-decoration: none;
+}
+.activeMenue div div svg{
+  color: #fff !important;
+}
+.css-1yaunvq-MuiAvatar-root{
+  background-color: #0171a3 !important;
+}
+
+.css-vqmohf-MuiButtonBase-root-MuiRadio-root.Mui-checked {
+  color: #0171a3;
+}
+.orderList{
+  background: rgb(229, 246, 253);
+    padding: 10px 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 1px 2px;
+}
+.MuiDropzoneArea-text {
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+  font-size: 1rem  !important;
+}
