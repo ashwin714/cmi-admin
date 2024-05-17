@@ -5,17 +5,21 @@ import { LettersRegex } from '../../app/HelperFunction'
 import ImageUpload from "../../Component/ImageUpload/ImageUpload";
 import AutoCompleteDropdown from "../../Component/Dropdown/AutoCompleteDropdown";
 import axios from 'axios';
-import { GetCategoryData, GetUnitData, ProductData } from './ProductSlice';
+import { GetCategoryData, GetProductByIdData, GetUnitData, ProductData } from './ProductSlice';
 import { useDispatch, useSelector } from "react-redux";
 import InputNumberField from '../../Component/InputNumberField/InputNumberField';
 import ToastAlert from '../../Component/Alert/ToastAlert';
 import CropAndUploadMultipleImages from '../../Component/ImageUpload/ImageCropAndUpload';
 import Loader from '../../Component/Loader/Loader';
+import { useParams } from 'react-router-dom';
 export const apiUrl = process.env.REACT_APP_URL;
 const AddProduct = () => {
     const dispatch = useDispatch();
+    const { id } = useParams();
+    const lastIdNumber = id?.match(/\d+$/)[0];
     const catList = useSelector(ProductData)?.getCategory;
     const unitList = useSelector(ProductData)?.getUnit;
+    const productDetails = useSelector(ProductData)?.getDataById;
     const categoryList = catList?.map((item, index) => ({
         name: item,
         id: index
@@ -36,10 +40,39 @@ const AddProduct = () => {
     const [claerImage, setClaerImage]=useState(false);
 
     useEffect(() => {
+       console.log(fileImage)
+       console.log(thumbnail)
+    }, [fileImage,thumbnail]);
+    useEffect(() => {
         dispatch(GetCategoryData());
         dispatch(GetUnitData());
     }, []);
-
+    useEffect(() => {
+        if (lastIdNumber) {
+          dispatch(GetProductByIdData(lastIdNumber))
+        }
+      }, []);
+      useEffect(()=>{
+        if(productDetails){
+            setProductName(productDetails?.name);
+            setFileImage(productDetails?.attachment?.map(attachment => {
+                const { url, ...rest } = attachment;
+                return { src: url, ...rest };
+              }));
+            setThumbnail(productDetails?.attachment?.map(attachment => {
+                const { url, ...rest } = attachment;
+                return { src: url, ...rest };
+              }));
+            setDescription(productDetails?.description)
+            setMaterial(productDetails?.material)
+            setColor(productDetails?.color)
+            setSize(productDetails?.size)
+            setQuantity(productDetails?.minOrder);
+            setUnit(productDetails?.minOrderUnit);
+            setCategory(productDetails?.category);
+            setClaerImage(false);
+        }
+      },[productDetails]);
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
@@ -58,11 +91,13 @@ const AddProduct = () => {
         }));
         //const imagFfiles = image ? [...image] : [];
         fileImage.forEach((file, i) => {
-            data.append(`file`, file.file);
+            console.log(`file`, file);
+            data.append(`file`, file);
         });
         //const thumbFiles = thumbnail ? [...thumbnail] : [];
         thumbnail.forEach((file, i) => {
-            data.append(`thumbnail`, file.file);
+            console.log(`thumbnail`, file)
+            data.append(`thumbnail`, file);
         });
 
         let config = {
@@ -103,6 +138,7 @@ const AddProduct = () => {
         setThumbnail([]);
     }
 
+
     return (
         <>
         {isLoading&&<Loader/>}
@@ -112,13 +148,13 @@ const AddProduct = () => {
                     <Grid container spacing={1} sx={{ pl: 2, pr: 2, pt: 1 }}>
                         <Grid item sx={6}>
                         <label>Add Thumbnail</label>
-                        <CropAndUploadMultipleImages setImage={setThumbnail} clearImage={claerImage} 
-                            aspectWidth={840} aspectHeight={1200}/>
+                        <CropAndUploadMultipleImages setImage={setThumbnail} attachment={fileImage} clearImage={claerImage} 
+                            aspectWidth={840} aspectHeight={1200} multiple={false}/>
                         </Grid>
                         <Grid item sx={6}>
                         <label>Add Images</label>
-                        <CropAndUploadMultipleImages setImage={setFileImage} clearImage={claerImage} 
-                            aspectWidth={480} aspectHeight={576}/>
+                        <CropAndUploadMultipleImages setImage={setFileImage} attachment={thumbnail} clearImage={claerImage} 
+                            aspectWidth={480} aspectHeight={576} multiple={true}/>
                         </Grid>
                         {/* <Grid sm={6} item>
                             <label>Add Thumbnail</label>

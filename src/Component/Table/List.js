@@ -151,7 +151,7 @@ const TableList = ({
         </TableHead>
         <TableBody>
           {filteredData?.map((row) => (
-            <TableRow key={row.id} onClick={() => handleView(row.id)}>
+            <TableRow key={row.id} onClick={()=>handleView(row.id)}>
               {meta?.tbody?.map((col) => (
                 <TableCell key={col.key}>
                   {col.key !== "thumbnailPath" ? (
@@ -170,7 +170,7 @@ const TableList = ({
                           <Button
                             variant={col?.button?.variant}
                             color={col?.button?.color}
-                            onClick={() => handleView(row)}
+                            onClick={() => onEdit(row)}
                           >
                             <RemoveRedEye />
                           </Button>

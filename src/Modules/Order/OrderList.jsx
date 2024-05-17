@@ -73,7 +73,7 @@ const OrderList = () => {
 
                                 sx={{ ml: 1, flex: 1 }}
                                 width="250px"
-                                label="Category"
+                                label="Customer"
                                 dataSet={customerList}
                                 getOptionLabel="name"
                                 selectedValue={customer}

@@ -50,10 +50,7 @@ const ProductList = () => {
     setOpen(false);
   };
   const handleEdit = (rowData) => {
-    setOpen(true);
-    setRecordId(rowData?.id);
-    setName(rowData?.name);
-    setModalHeader("Edit Amenties");
+    window.location.assign(`/cmi/editProduct/${rowData.id}`)
   };
   const handleSubmit = async (e) => {
     e.preventDefault();

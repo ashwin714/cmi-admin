@@ -26,10 +26,10 @@ export const ProductListConfig = {
             key: "minOrder",
             label: "Minimum Order",
           },
-        // {
-        //   key: "actionButoon",
-        //   label: "Action",
-        // },
+        {
+          key: "actionButoon",
+          label: "Action",
+        },
       ],
       tbody: [
         {
@@ -56,14 +56,14 @@ export const ProductListConfig = {
               key: "minOrder",
               label: "Minimum Order",
             },
-        // {
-        //   key: "actionButoon",
-        //   button: {
-        //     color: "primary",
-        //     variant: "text",
-        //     icon: "Edit",
-        //   },
-        // },
+        {
+          key: "actionButoon",
+          button: {
+            color: "primary",
+            variant: "text",
+            icon: "Edit",
+          },
+        },
       ],
      
     },
