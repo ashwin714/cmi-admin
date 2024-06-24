@@ -56,8 +56,8 @@ const AddProduct = () => {
   useEffect(() => {
     if (productDetails) {
       setProductName(productDetails?.name || '');
-      setThumbnail(productDetails?.attachment?.slice(0, 1).map(attachment => ({ src: attachment.url, ...attachment })) || []);
-      setFileImage(productDetails?.attachment?.slice(1).map(attachment => ({ src: attachment.url, ...attachment })) || []);
+     // setThumbnail(productDetails?.attachment?.slice(0, 1).map(attachment => ({ src: attachment.url, ...attachment })) || []);
+      //setFileImage(productDetails?.attachment?.slice(1).map(attachment => ({ src: attachment.url, ...attachment })) || []);
       setDescription(productDetails?.description || '');
       setMaterial(productDetails?.material || '');
       setColor(productDetails?.color || '');
@@ -141,7 +141,7 @@ const AddProduct = () => {
               <label>Add Thumbnail</label>
               <CropAndUploadMultipleImages
                 setImage={setThumbnail}
-                attachment={thumbnail}
+                attachment={productDetails?.attachment?.slice(0, 1).map(attachment => ({ src: attachment.url, ...attachment }))}
                 clearImage={clearImage}
                 aspectWidth={840}
                 aspectHeight={1200}
@@ -152,7 +152,7 @@ const AddProduct = () => {
               <label>Add Images</label>
               <CropAndUploadMultipleImages
                 setImage={setFileImage}
-                attachment={fileImage}
+                attachment={productDetails?.attachment?.slice(1).map(attachment => ({ src: attachment.url, ...attachment }))}
                 clearImage={clearImage}
                 aspectWidth={480}
                 aspectHeight={576}

@@ -4,16 +4,15 @@ import 'react-image-crop/dist/ReactCrop.css';
 import { Modal, Button } from '@mui/material';
 import { useDropzone } from 'react-dropzone';
 
-
 function ImageCropExample({ setImage, attachment, clearImage, aspectWidth, aspectHeight, multiple }) {
   const [images, setImages] = useState([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [crop, setCrop] = useState({ unit: 'px', width: 30, aspect: aspectWidth / aspectHeight }); // Set aspect ratio based on props
+  const [crop, setCrop] = useState({ unit: 'px', width: 30, aspect: aspectWidth / aspectHeight });
   const [showModal, setShowModal] = useState(false);
   const [croppedImageUrls, setCroppedImageUrls] = useState([]);
 
-   // Handle attachment prop changes
-   useEffect(() => {
+  // Handle attachment prop changes
+  useEffect(() => {
     if (attachment && attachment.length > 0) {
       const initialCroppedImageUrls = attachment.map(att => att.src);
       setCroppedImageUrls(initialCroppedImageUrls);
@@ -27,6 +26,7 @@ function ImageCropExample({ setImage, attachment, clearImage, aspectWidth, aspec
       setImages([]);
     }
   }, [clearImage]);
+
   const onDrop = acceptedFiles => {
     const newImages = acceptedFiles.map(file => ({
       file,
@@ -34,6 +34,7 @@ function ImageCropExample({ setImage, attachment, clearImage, aspectWidth, aspec
     }));
     setImages([...images, ...newImages]);
     setShowModal(true);
+    setCurrentImageIndex(images.length); // Set currentImageIndex to the last added image
   };
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -47,7 +48,7 @@ function ImageCropExample({ setImage, attachment, clearImage, aspectWidth, aspec
   };
 
   const makeClientCrop = async crop => {
-    const { file, src } = images[currentImageIndex];
+    const { src } = images[currentImageIndex];
     if (src && crop.width && crop.height) {
       const croppedImageUrl = await getCroppedImg(src, crop);
       const newCroppedImageUrls = [...croppedImageUrls];
@@ -90,14 +91,13 @@ function ImageCropExample({ setImage, attachment, clearImage, aspectWidth, aspec
 
   const handleCloseModal = () => {
     setShowModal(false);
-    setCrop({ unit: '%', width: 30, aspect: aspectWidth / aspectHeight }); // Reset aspect ratio on modal close
-    setCurrentImageIndex(0);
+    setCrop({ unit: 'px', width: 30, aspect: aspectWidth / aspectHeight });
+    setCurrentImageIndex(0); // Reset currentImageIndex on modal close
   };
 
   const handleSaveCrop = async () => {
     setShowModal(false);
-    const croppedImageUrlsCopy = [...croppedImageUrls];
-    const croppedImageUrl = croppedImageUrlsCopy[currentImageIndex];
+    const croppedImageUrl = croppedImageUrls[currentImageIndex];
     if (croppedImageUrl) {
       try {
         const blob = await fetch(croppedImageUrl).then(r => r.blob());
@@ -109,13 +109,6 @@ function ImageCropExample({ setImage, attachment, clearImage, aspectWidth, aspec
       }
     }
   };
-
-  useEffect(() => {
-    if (clearImage) {
-      setCroppedImageUrls([]);
-      setImages([]);
-    }
-  }, [clearImage]);
 
   return (
     <div>
@@ -140,17 +133,16 @@ function ImageCropExample({ setImage, attachment, clearImage, aspectWidth, aspec
         </div>
       </Modal>
       <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
-  {croppedImageUrls.map((url, index) => (
-    <div key={index} style={{ margin: '5px' }}>
-      <img
-        alt={`Cropped ${index}`}
-        src={url}
-        style={{ width: '100px', height: '100px', objectFit: 'cover' }}
-      />
-    </div>
-  ))}
-</div>
-
+        {croppedImageUrls.map((url, index) => (
+          <div key={index} style={{ margin: '5px' }}>
+            <img
+              alt={`Cropped ${index}`}
+              src={url}
+              style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
