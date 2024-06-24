@@ -76,7 +76,10 @@ const ProductDetails = () => {
                   <b> Size : </b>{productDetails?.material}
                 </Typography>
                 <Typography className="product-item" gutterBottom>
-                  <b>Minimum Order : </b>{productDetails?.minOrder} {productDetails?.minOrderUnit}
+                  <b> Piece Per Karton : </b>{productDetails?.piecePerKarton}
+                </Typography>
+                <Typography className="product-item" gutterBottom>
+                  <b>Minimum Order Quantity: </b>{productDetails?.minOrder} {productDetails?.minOrderUnit}
                 </Typography>
 
               </Card>

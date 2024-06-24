@@ -4,13 +4,29 @@ import 'react-image-crop/dist/ReactCrop.css';
 import { Modal, Button } from '@mui/material';
 import { useDropzone } from 'react-dropzone';
 
-function ImageCropExample({ setImage, clearImage, aspectWidth, aspectHeight, multiple }) {
+
+function ImageCropExample({ setImage, attachment, clearImage, aspectWidth, aspectHeight, multiple }) {
   const [images, setImages] = useState([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [crop, setCrop] = useState({ unit: 'px', width: 30, aspect: aspectWidth / aspectHeight }); // Set aspect ratio based on props
   const [showModal, setShowModal] = useState(false);
   const [croppedImageUrls, setCroppedImageUrls] = useState([]);
 
+   // Handle attachment prop changes
+   useEffect(() => {
+    if (attachment && attachment.length > 0) {
+      const initialCroppedImageUrls = attachment.map(att => att.src);
+      setCroppedImageUrls(initialCroppedImageUrls);
+    }
+  }, [attachment]);
+
+  // Handle clearImage prop changes
+  useEffect(() => {
+    if (clearImage) {
+      setCroppedImageUrls([]);
+      setImages([]);
+    }
+  }, [clearImage]);
   const onDrop = acceptedFiles => {
     const newImages = acceptedFiles.map(file => ({
       file,
@@ -123,11 +139,18 @@ function ImageCropExample({ setImage, clearImage, aspectWidth, aspectHeight, mul
           <Button variant="contained" onClick={handleCloseModal}>Close</Button>
         </div>
       </Modal>
-      {croppedImageUrls.map((url, index) => (
-        <div key={index}>
-          <img alt={`Cropped ${index}`} src={url} style={{ maxWidth: '200px' }} />
-        </div>
-      ))}
+      <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+  {croppedImageUrls.map((url, index) => (
+    <div key={index} style={{ margin: '5px' }}>
+      <img
+        alt={`Cropped ${index}`}
+        src={url}
+        style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+      />
+    </div>
+  ))}
+</div>
+
     </div>
   );
 }

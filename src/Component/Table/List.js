@@ -151,39 +151,34 @@ const TableList = ({
         </TableHead>
         <TableBody>
           {filteredData?.map((row) => (
-            <TableRow key={row.id} onClick={()=>handleView(row.id)}>
+            <TableRow key={row.id} >
               {meta?.tbody?.map((col) => (
                 <TableCell key={col.key}>
                   {col.key !== "thumbnailPath" ? (
                     col.key === "actionButoon" ? (
                       <>
+                      <div style={{ display: 'flex' }}>
                         {col?.button?.icon === "Edit" && (
                           <Button
                             variant={col?.button?.variant}
                             color={col?.button?.color}
                             onClick={() => onEdit(row)}
+                            size="small"
                           >
                             <Edit />
                           </Button>
                         )}
-                        {col?.button?.icon !== "Edit" && (
+                        {col?.button?.icon !== "View" && (
                           <Button
                             variant={col?.button?.variant}
                             color={col?.button?.color}
-                            onClick={() => onEdit(row)}
+                            onClick={()=>handleView(row.id)}
+                            size="small"
                           >
                             <RemoveRedEye />
                           </Button>
                         )}
-                        {editButtonShow && (
-                          <Button
-                            variant={col?.button?.variant}
-                            color={col?.button?.color}
-                            onClick={() => onEdit(row)}
-                          >
-                            <Edit />
-                          </Button>
-                        )}
+                        </div>
                       </>
                     ) : col?.replace ? (
                       replace(row[col?.key], ",@,", " ")

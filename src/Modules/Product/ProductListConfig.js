@@ -64,6 +64,7 @@ export const ProductListConfig = {
             icon: "Edit",
           },
         },
+        
       ],
      
     },
