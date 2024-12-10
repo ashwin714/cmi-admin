@@ -10,6 +10,7 @@ import {
   ImageList,
   ImageListItem,
   ImageListItemBar,
+  Slider,
 } from "@mui/material";
 import { Add, Delete } from "@mui/icons-material";
 import Cropper from "react-easy-crop";
@@ -27,6 +28,8 @@ const ImageUploaderWithCrop = ({
   const [cropModalOpen, setCropModalOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState(null);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
 
   // Format and load attachments on component mount
   useEffect(() => {
@@ -66,6 +69,7 @@ const ImageUploaderWithCrop = ({
       setImage(updatedImages);
       setCropModalOpen(false);
       setCurrentImage(null);
+      setZoom(1); // Reset zoom
     }
   };
 
@@ -127,13 +131,24 @@ const ImageUploaderWithCrop = ({
           {currentImage && (
             <Cropper
               image={currentImage.src}
-              crop={{ x: 0, y: 0 }}
-              zoom={1}
+              crop={crop}
+              zoom={zoom}
               aspect={aspectWidth / aspectHeight}
-              onCropChange={() => {}}
+              onCropChange={setCrop}
+              onZoomChange={setZoom}
               onCropComplete={onCropComplete}
             />
           )}
+          {/* Zoom Slider */}
+          <Slider
+            value={zoom}
+            min={1}
+            max={3}
+            step={0.1}
+            aria-label="Zoom"
+            onChange={(e, value) => setZoom(value)}
+            sx={{ position: "absolute", bottom: 20, left: 20, right: 20 }}
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setCropModalOpen(false)}>Cancel</Button>

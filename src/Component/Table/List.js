@@ -114,7 +114,7 @@ const TableList = ({
               inputProps={{ 'aria-label': 'Search' }}
               onChange={(e) => setSearch(e.target.value)}
             />
-            <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={handleSearch}>
+            <IconButton type="button" color="primary" sx={{ p: '10px' }} aria-label="search" onClick={handleSearch}>
               <SearchIcon />
             </IconButton>
             <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />

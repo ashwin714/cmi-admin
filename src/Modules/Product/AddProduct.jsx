@@ -183,8 +183,8 @@ const AddProduct = () => {
                 setImage={setThumbnail}
                 attachment={thumbnail}
                 clearImage={clearImage}
-                aspectWidth={4}
-                aspectHeight={3}
+                aspectWidth={0.7}
+                aspectHeight={1}
                 multiple={false}
               />
             </Grid>
@@ -194,8 +194,8 @@ const AddProduct = () => {
                 setImage={setFileImage}
                 attachment={fileImage}
                 clearImage={clearImage}
-                aspectWidth={4}
-                aspectHeight={3}
+                aspectWidth={0.7}
+                aspectHeight={1}
                 multiple={true}
               />
             </Grid>
