@@ -8,10 +8,11 @@ import {
   AddProductData,
   ProductData,
   GetProductData,
+  DeleteProductData,
 } from "./ProductSlice";
 import { ProductListConfig } from './ProductListConfig'
 import Loader from '../../Component/Loader/Loader';
-
+import swal from 'sweetalert';
 
 const ProductList = () => {
   const dispatch = useDispatch();
@@ -71,6 +72,27 @@ const ProductList = () => {
   const handleView = (id) => {
     window.location.assign(`/cmi/productDetails/${id}`)
   }
+  const handleDelete=(data)=>{
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this record",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        dispatch(DeleteProductData(data))
+        swal("Product has been deleted!", {
+          icon: "success",
+        });
+        dispatch(GetProductData(apiParam));
+      } else {
+        swal("Your product is safe!");
+      }
+    });
+    
+  }
   return (
     <>
     {isLoading&&<Loader/>}
@@ -89,6 +111,7 @@ const ProductList = () => {
         onAdd={handleAdd}
         onEdit={handleEdit}
         handleView={handleView}
+        handleDelete={handleDelete}
       />
 
     </>

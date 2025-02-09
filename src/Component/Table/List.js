@@ -1,4 +1,4 @@
-import {  Add,  Edit,  RemoveRedEye } from "@mui/icons-material";
+import {  Add,  Delete,  Edit,  RemoveRedEye } from "@mui/icons-material";
 import {
   Button,
   Card,
@@ -33,6 +33,7 @@ const TableList = ({
   editButtonShow,
   handleView,
   showAdd,
+  handleDelete
 }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -169,7 +170,7 @@ const TableList = ({
                           </Button>
                         )}
                         {col?.button?.icon !== "View" && (
-                          <Button
+                         <><Button
                             variant={col?.button?.variant}
                             color={col?.button?.color}
                             onClick={()=>handleView(row.id)}
@@ -177,6 +178,14 @@ const TableList = ({
                           >
                             <RemoveRedEye />
                           </Button>
+                          <Button
+                          variant={col?.button?.variant}
+                          color="error"
+                          onClick={()=>handleDelete(row.id)}
+                          size="small"
+                        >
+                          <Delete />
+                        </Button></> 
                         )}
                         </div>
                       </>

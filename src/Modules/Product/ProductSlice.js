@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import ToastAlert from "../../Component/Alert/ToastAlert";
-import { AddProduct, GetProduct, GetProductById, GetCategory, GetUnit,GetFilter } from "./ProductService";
+import { AddProduct, GetProduct, GetProductById, GetCategory, GetUnit,GetFilter, DeleteProduct } from "./ProductService";
 // import swal from "sweetalert";
 
 const initialState = {
@@ -10,6 +10,7 @@ const initialState = {
   getCategory:undefined,
   getUnit:undefined,
   getFilter:undefined,
+  deleteData: undefined, // Add deleteData state
   error: undefined,
   status: "idle"
 };
@@ -56,6 +57,14 @@ export const GetFilterData = createAsyncThunk(
   "Product/GetFilter",
   async () => {
     const response = await GetFilter();
+    return response;
+  }
+);
+// Add DeleteProductData
+export const DeleteProductData = createAsyncThunk(
+  "Product/DeleteProduct",
+  async (id) => {
+    const response = await DeleteProduct(id);
     return response;
   }
 );
@@ -139,6 +148,20 @@ export const ProductSlice = createSlice({
       .addCase(GetFilterData.fulfilled, (state, action) => {
         state.status = "success";
         state.getFilter = action.payload;
+      })
+
+      // Add cases for DeleteProductData
+      .addCase(DeleteProductData.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(DeleteProductData.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action;
+      })
+      .addCase(DeleteProductData.fulfilled, (state, action) => {
+        state.status = "success";
+        state.deleteData = action.payload;
+        ToastAlert(action.payload.message, "success");
       });
   }
 });

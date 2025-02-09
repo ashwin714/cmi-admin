@@ -57,6 +57,7 @@ const AddProduct = () => {
   const [category, setCategory] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [clearImage, setClearImage] = useState(false);
+  const [packingQty, setPackingQty] =useState('')
 
   useEffect(() => {
     console.log('File Images:', fileImage);
@@ -91,6 +92,7 @@ const AddProduct = () => {
       setUnit(productDetails?.minOrderUnit || '');
       setCategory(productDetails?.category || '');
       setPiecePerKarton(productDetails?.piecePerKarton || '');
+      setPackingQty(productDetails?.packingQty || '')
       setClearImage(false);
     }
   }, [productDetails]);
@@ -113,7 +115,8 @@ const AddProduct = () => {
         minOrderUnit: unit,
         category,
         piecePerKarton,
-        id: lastIdNumber,
+        packingQty:packingQty
+        //id: lastIdNumber,
       })
     );
 
@@ -137,7 +140,7 @@ const AddProduct = () => {
     try {
       const config = {
         method: lastIdNumber ? 'put' : 'post',
-        url: `${apiUrl}/`, // Replace with your API endpoint
+        url: `${apiUrl}/product/`, // Replace with your API endpoint
         headers: {
           Authorization: `Bearer ${accessTokenJson}`,
         },
@@ -270,6 +273,14 @@ const AddProduct = () => {
                 label="Piece Per Karton"
                 value={piecePerKarton}
                 onChange={setPiecePerKarton}
+                isRequired={true}
+              />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <InputTextField
+                label="Packing Quantity"
+                value={packingQty}
+                onChange={setPackingQty}
                 isRequired={true}
               />
             </Grid>
