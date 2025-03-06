@@ -115,8 +115,8 @@ const AddProduct = () => {
         minOrderUnit: unit,
         category,
         piecePerKarton,
-        packingQty:packingQty
-        //id: lastIdNumber,
+        packingQty:packingQty,
+        id: lastIdNumber,
       })
     );
 
