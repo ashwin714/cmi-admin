@@ -50,7 +50,6 @@ const AddProduct = () => {
   const [description, setDescription] = useState('');
   const [material, setMaterial] = useState('');
   const [color, setColor] = useState('');
-  const [size, setSize] = useState('');
   const [quantity, setQuantity] = useState('');
   const [unit, setUnit] = useState('');
   const [piecePerKarton, setPiecePerKarton] = useState('');
@@ -87,7 +86,6 @@ const AddProduct = () => {
       setDescription(productDetails?.description || '');
       setMaterial(productDetails?.material || '');
       setColor(productDetails?.color || '');
-      setSize(productDetails?.size || '');
       setQuantity(productDetails?.minOrder || '');
       setUnit(productDetails?.minOrderUnit || '');
       setCategory(productDetails?.category || '');
@@ -110,7 +108,6 @@ const AddProduct = () => {
         description,
         material,
         color,
-        size,
         minOrder: quantity,
         minOrderUnit: unit,
         category,
@@ -164,7 +161,6 @@ const AddProduct = () => {
     setDescription('');
     setMaterial('');
     setColor('');
-    setSize('');
     setQuantity('');
     setUnit('');
     setCategory('');
@@ -240,18 +236,9 @@ const AddProduct = () => {
                 isRequired={true}
               />
             </Grid>
-            <Grid item xs={12} sm={4}>
-              <InputTextField
-                label="Size"
-                value={size}
-                onChange={setSize}
-                maxLength={LettersRegex}
-                isRequired={true}
-              />
-            </Grid>
-            <Grid item xs={12} sm={4}>
+           <Grid item xs={12} sm={4}>
               <InputNumberField
-                label="Quantity"
+                label="Minimum Order Quantity(MOQ)"
                 value={quantity}
                 onChange={setQuantity}
                 isRequired={true}
@@ -270,7 +257,7 @@ const AddProduct = () => {
             </Grid>
             <Grid item xs={12} sm={4}>
               <InputNumberField
-                label="Piece Per Karton"
+                label="Piece Per Carton"
                 value={piecePerKarton}
                 onChange={setPiecePerKarton}
                 isRequired={true}

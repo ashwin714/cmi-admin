@@ -309,14 +309,15 @@
   color: #0171a3;
 }
 .orderList{
-  background: rgb(229, 246, 253);
-    padding: 10px 10px;
-    margin-top: 10px;
-    border-radius: 5px;
-    box-shadow: 0px 1px 2px;
+    padding: 5px 5px;
+    box-shadow: 0px 0px 1px;
 }
 .MuiDropzoneArea-text {
   margin-top: 10px !important;
   margin-bottom: 10px !important;
   font-size: 1rem  !important;
+}
+.activeMenu .MuiListItemButton-root {
+  background-color: #1976d2 !important;
+  color: white;
 }

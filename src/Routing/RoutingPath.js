@@ -20,6 +20,10 @@ const RoutingPath = () => {
         <Route path="/cmi/addProduct" element={<AddProduct />} />
         <Route path="/cmi/editProduct/:id" element={<AddProduct />} />
         <Route path="/cmi/productDetails/:id" element={<ProductDetails />} />
+        <Route
+          path="/cmi/order/productDetails/:id/:orderId"
+          element={<ProductDetails />}
+        />
         <Route path="/cmi/order" element={<OrderListPage />}></Route>
         <Route path="/cmi/orderDetails/:id" element={<OrderDetails />}></Route>
       </Route>

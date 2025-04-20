@@ -1,127 +1,132 @@
-import React, { useEffect } from "react";
-import { styled, useTheme } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import MuiDrawer from "@mui/material/Drawer";
-import List from "@mui/material/List";
-import CssBaseline from "@mui/material/CssBaseline";
-import Divider from "@mui/material/Divider";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import { NavLink } from "react-router-dom";
-import { Apartment, Group , Assessment} from "@mui/icons-material";
-import { useState } from "react";
-const drawerWidth = 240;
+import React, { useEffect, useState } from "react";
+import {
+  Card,
+  Divider,
+  Grid,
+  IconButton,
+  Paper,
+  Tooltip,
+  Typography,
+  Box,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import Loader from "../../Component/Loader/Loader";
+import AutoCompleteDropdown from "../../Component/Dropdown/AutoCompleteDropdown";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { GetProductData, ProductData } from "./ProductSlice";
 
-const openedMixin = (theme) => ({
-  width: drawerWidth,
-  transition: theme.transitions.create("width", {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.enteringScreen,
-  }),
-  overflowX: "hidden",
-});
+const ProductList = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const productList = useSelector(ProductData)?.getData;
+  const [isLoading, setIsLoading] = useState(false);
 
-const closedMixin = (theme) => ({
-  transition: theme.transitions.create("width", {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  overflowX: "hidden",
-  width: `calc(${theme.spacing(7)} + 1px)`,
-  [theme.breakpoints.up("sm")]: {
-    width: `calc(${theme.spacing(8)} + 1px)`,
-  },
-});
+  useEffect(() => {
+    setIsLoading(true);
+    dispatch(GetProductData());
+  }, []);
 
-const DrawerHeader = styled("div")(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "flex-end",
-  padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-}));
+  useEffect(() => {
+    if (productList) setIsLoading(false);
+  }, [productList]);
 
-const CustomDrawer = styled(MuiDrawer, {
-  shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
-  width: drawerWidth,
-  flexShrink: 0,
-  whiteSpace: "nowrap",
-  boxSizing: "border-box",
-  ...(open && {
-    ...openedMixin(theme),
-    "& .MuiDrawer-paper": openedMixin(theme),
-  }),
-  ...(!open && {
-    ...closedMixin(theme),
-    "& .MuiDrawer-paper": closedMixin(theme),
-  }),
-}));
+  const handleRefresh = () => {
+    window.location.reload();
+  };
 
-
-
-export default function MiniDrawer() {
-  //const userDetails = useSelector(EmployeeData)?.getUserProfile;
-  const theme = useTheme();
-  const [open, setOpen] = React.useState(true);
-  const [user, setUser] = useState(true);
-  const [openSubmenu, setOpenSubmenu] = React.useState(false);
-  const [activeMenue, setActiveMenu]=useState("/cmi")
-  //const userDetailsJson = localStorage.getItem("userDetail");
- // const userDetails = JSON.parse(userDetailsJson);
-
- var basePath =
- "/" + window.location.pathname.split("/", 3).filter(Boolean).join("/");
-//console.log(basePath,"activeMenue");
-useEffect(()=>{
- // console.log(basePath,"basePath", basePath==="/cmi/orderDetails")
-if(basePath==="/cmi/orderDetails"){
-  setActiveMenu("/cmi/order")
-}else if(basePath==="/cmi/order"){
-  setActiveMenu("/cmi/order")
-}
-},[basePath])
- const handleMenu=(active)=>{
-    setActiveMenu(active)
- }
+  const handleView = (productId) => {
+    navigate(`/cmi/productDetails/${productId}`);
+  };
 
   return (
-    <Box sx={{ display: "flex", marginTop: "50px" }}>
-      <CssBaseline />
-      <CustomDrawer variant="permanent" open={open}>
-        <Divider />
-        <List sx={{mt:3}}>
-         
-                <NavLink
-                  disablePadding
-                  component="a"
-                  sx={{ display: "block" }}
-                  to="/cmi"
-                  className={activeMenue === "/cmi" ? "activeMenue" : ""}
-                  onClick={()=>handleMenu("/cmi")}
+    <>
+      {isLoading && <Loader />}
+      <Typography className="pageHeader">Product List</Typography>
+      <Card>
+        <Grid container sx={{ p: 2 }} spacing={2}>
+          <Grid item sm={7}></Grid>
+          <Grid item sm={5}>
+            <Paper
+              component="form"
+              sx={{ p: "2px 4px", display: "flex", alignItems: "center" }}
+            >
+              {/* Optional dropdown or search filter can be added here */}
+              <Box flexGrow={1}></Box>
+              <Tooltip title="Refresh Products">
+                <IconButton
+                  color="primary"
+                  sx={{ p: "10px" }}
+                  onClick={handleRefresh}
                 >
-                  <ListItemButton>
-                    <ListItemIcon><Apartment /></ListItemIcon>
-                    <ListItemText primary="Product"/>                   
-                  </ListItemButton>
-                </NavLink>
-                <NavLink
-                  disablePadding
-                  component="a"
-                  sx={{ display: "block" }}
-                  to="/cmi/order"
-                  className={activeMenue === "/cmi/order" || activeMenue === "/cmi/orderDetails" ? "activeMenue" : ""}
-                  onClick={()=>handleMenu("/cmi/order")}
-                >
-                  <ListItemButton>
-                    <ListItemIcon><Assessment /></ListItemIcon>
-                    <ListItemText primary="Order"/>                   
-                  </ListItemButton>
-                </NavLink>
-        </List>        
-      </CustomDrawer>
-    </Box>
+                  <RefreshIcon />
+                </IconButton>
+              </Tooltip>
+            </Paper>
+          </Grid>
+
+          <Grid item sm={12}>
+            <Paper>
+              <TableContainer sx={{ maxHeight: "65vh" }}>
+                <Table stickyHeader size="small">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell
+                        sx={{ backgroundColor: "#f0f0f0", fontWeight: "bold" }}
+                      >
+                        Product ID
+                      </TableCell>
+                      <TableCell
+                        sx={{ backgroundColor: "#f0f0f0", fontWeight: "bold" }}
+                      >
+                        Name
+                      </TableCell>
+                      <TableCell
+                        sx={{ backgroundColor: "#f0f0f0", fontWeight: "bold" }}
+                        align="center"
+                      >
+                        Minimum Order
+                      </TableCell>
+                      <TableCell
+                        sx={{ backgroundColor: "#f0f0f0", fontWeight: "bold" }}
+                        align="center"
+                      >
+                        Status
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {productList?.map((product) => (
+                      <TableRow
+                        key={product.id}
+                        hover
+                        sx={{ cursor: "pointer" }}
+                        onClick={() => handleView(product.id)}
+                      >
+                        <TableCell>{product.id}</TableCell>
+                        <TableCell>{product.name}</TableCell>
+                        <TableCell align="center">
+                          {product.minimum_order}
+                        </TableCell>
+                        <TableCell align="center">{product.status}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Paper>
+          </Grid>
+        </Grid>
+      </Card>
+    </>
   );
-}
+};
+
+export default ProductList;

@@ -24,14 +24,9 @@ const ProductFilter = ({
     const getFilterList = useSelector(ProductData)?.getFilter;
     const catList = useSelector(ProductData)?.getCategory;
     const [color, setColor] = useState('');
-    const [size, setSize] = useState('');
     const [material, setMaterial] = useState('');
     const [category, setCategory] = useState([]);
     const colorList = getFilterList?.color?.map((item, index) => ({
-        name: item,
-        id: index
-    }));
-    const sizeList = getFilterList?.size?.map((item, index) => ({
         name: item,
         id: index
     }));
@@ -57,13 +52,7 @@ const ProductFilter = ({
                 "operator": "LIKE"
             };
         }
-    
-        if (size) {
-            newFilter["size"] = {
-                "value": size,
-                "operator": "LIKE"
-            };
-        }
+
     
         if (material) {
             newFilter["material"] = {
@@ -102,17 +91,6 @@ const ProductFilter = ({
                             selectedValue={color}
                             getOptionValue="name"
                             onChange={setColor}
-                        //isRequired
-                        />
-                    </Grid>
-                    <Grid sm={12} item sx={{ mt: 1 }}>
-                        <AutoCompleteDropdown
-                            label="Size"
-                            dataSet={sizeList}
-                            getOptionLabel="name"
-                            selectedValue={size}
-                            getOptionValue="name"
-                            onChange={setSize}
                         //isRequired
                         />
                     </Grid>

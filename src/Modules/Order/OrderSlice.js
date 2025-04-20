@@ -1,6 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import ToastAlert from "../../Component/Alert/ToastAlert";
-import { AddOrder, GetOrder, GetOrderById, GetCustomer } from "./OrderService";
+import {
+  AddOrder,
+  GetOrder,
+  GetOrderById,
+  GetCustomer,
+  UpdateOrderStatus,
+  UploadOrderAttachment,
+  GetOrderAttachments,
+  DeleteOrderAttachment,
+} from "./OrderService";
 // import swal from "sweetalert";
 
 const initialState = {
@@ -9,24 +18,19 @@ const initialState = {
   getOrderDataById: undefined,
   getCustomer: undefined,
   error: undefined,
-  status: "idle"
+  status: "idle",
+  attachments: [],
 };
 
-export const AddOrderData = createAsyncThunk(
-  "Order/AddOrder",
-  async (data) => {
-    const response = await AddOrder(data);
-    return response;
-  }
-);
+export const AddOrderData = createAsyncThunk("Order/AddOrder", async (data) => {
+  const response = await AddOrder(data);
+  return response;
+});
 
-export const GetOrderData = createAsyncThunk(
-  "Order/GetOrder",
-  async (id) => {
-    const response = await GetOrder(id);
-    return response;
-  }
-);
+export const GetOrderData = createAsyncThunk("Order/GetOrder", async (id) => {
+  const response = await GetOrder(id);
+  return response;
+});
 export const GetOrderDataById = createAsyncThunk(
   "Order/GetOrderById",
   async (id) => {
@@ -41,6 +45,34 @@ export const GetCustomerData = createAsyncThunk(
     return response;
   }
 );
+export const UpdateStatus = createAsyncThunk(
+  "Order/UpdateStatus",
+  async (data) => {
+    const response = await UpdateOrderStatus(data);
+    return response;
+  }
+);
+export const UploadAttachments = createAsyncThunk(
+  "Order/UploadAttachments",
+  async (data) => {
+    const response = await UploadOrderAttachment(data.data);
+    return response;
+  }
+);
+export const GetAttachmentsById = createAsyncThunk(
+  "Order/GetAttachmentsById",
+  async (id) => {
+    const response = await GetOrderAttachments(id);
+    return response;
+  }
+);
+export const DeleteAttachmentById = createAsyncThunk(
+  "Order/DeleteAttachmentById",
+  async (data) => {
+    const response = await DeleteOrderAttachment(data);
+    return response;
+  }
+);
 
 export const OrderSlice = createSlice({
   name: "Order",
@@ -49,6 +81,28 @@ export const OrderSlice = createSlice({
 
   extraReducers: (builder) => {
     builder
+      .addCase(GetAttachmentsById.fulfilled, (state, action) => {
+        state.status = "success";
+        state.attachments = action.payload;
+      })
+
+      .addCase(UploadAttachments.fulfilled, (state) => {
+        ToastAlert("Uploaded", "success");
+      })
+
+      .addCase(UpdateStatus.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(UpdateStatus.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action;
+      })
+      .addCase(UpdateStatus.fulfilled, (state, action) => {
+        state.status = "success";
+        state.addData = action.payload;
+        ToastAlert(action.payload.message, "success");
+      })
+
       .addCase(AddOrderData.pending, (state) => {
         state.status = "loading";
       })
@@ -97,10 +151,10 @@ export const OrderSlice = createSlice({
         state.status = "success";
         state.getCustomer = action.payload;
       });
-  }
+  },
 });
 
-export const { } = OrderSlice.actions;
+export const {} = OrderSlice.actions;
 
 export const OrderData = (state) => {
   return state.order;

@@ -10,9 +10,10 @@ import {
   GetProductData,
   DeleteProductData,
 } from "./ProductSlice";
-import { ProductListConfig } from './ProductListConfig'
-import Loader from '../../Component/Loader/Loader';
-import swal from 'sweetalert';
+import { ProductListConfig } from "./ProductListConfig";
+import Loader from "../../Component/Loader/Loader";
+import swal from "sweetalert";
+import CategoryTwoToneIcon from "@mui/icons-material/CategoryTwoTone";
 
 const ProductList = () => {
   const dispatch = useDispatch();
@@ -22,15 +23,14 @@ const ProductList = () => {
     pageSize: 10,
     searchOn: "name",
     searchValue: "",
-    filter: {
-    }
+    filter: {},
   });
   const [formFeild, setFormFeild] = useState();
   const [open, setOpen] = React.useState(false);
   const [name, setName] = useState("");
   const [recordId, setRecordId] = useState("");
   const [modalHeader, setModalHeader] = useState("");
-  const [isLoading, setIsLoading]=useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     if (apiParam) {
       //console.log(apiParam,"apiParamapiParam")
@@ -39,19 +39,19 @@ const ProductList = () => {
     }
     // Safe to add dispatch to the dependencies array
   }, [apiParam]);
-  useEffect(()=>{
-    if(productList){
-      setIsLoading(false)
+  useEffect(() => {
+    if (productList) {
+      setIsLoading(false);
     }
-  },[productList])
+  }, [productList]);
   const handleAdd = () => {
-    window.location.assign('/cmi/addProduct')
+    window.location.assign("/cmi/addProduct");
   };
   const handleClose = () => {
     setOpen(false);
   };
   const handleEdit = (rowData) => {
-    window.location.assign(`/cmi/editProduct/${rowData.id}`)
+    window.location.assign(`/cmi/editProduct/${rowData.id}`);
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -70,19 +70,18 @@ const ProductList = () => {
     setOpen(false);
   };
   const handleView = (id) => {
-    window.location.assign(`/cmi/productDetails/${id}`)
-  }
-  const handleDelete=(data)=>{
+    window.location.assign(`/cmi/productDetails/${id}`);
+  };
+  const handleDelete = (data) => {
     swal({
       title: "Are you sure?",
       text: "Once deleted, you will not be able to recover this record",
       icon: "warning",
       buttons: true,
       dangerMode: true,
-    })
-    .then((willDelete) => {
+    }).then((willDelete) => {
       if (willDelete) {
-        dispatch(DeleteProductData(data))
+        dispatch(DeleteProductData(data));
         swal("Product has been deleted!", {
           icon: "success",
         });
@@ -91,12 +90,24 @@ const ProductList = () => {
         swal("Your product is safe!");
       }
     });
-    
-  }
+  };
   return (
     <>
-    {isLoading&&<Loader/>}
-      <Typography className="pageHeader">Product List</Typography>
+      {isLoading && <Loader />}
+      <Typography
+        className="pageHeader"
+        variant="h4"
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          fontWeight: "bold",
+          color: "#333",
+          marginBottom: "16px",
+        }}
+      >
+        <CategoryTwoToneIcon sx={{ mr: 1 }} />
+        Product List
+      </Typography>
       {/* <AddProjectDialog/> */}
       <TableList
         data={productList?.data}
@@ -113,7 +124,6 @@ const ProductList = () => {
         handleView={handleView}
         handleDelete={handleDelete}
       />
-
     </>
   );
 };

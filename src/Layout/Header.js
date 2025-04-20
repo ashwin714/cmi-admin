@@ -30,7 +30,6 @@ const Header = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-
   const userDetailsJson = localStorage.getItem("userDetail");
   const userDetails = JSON.parse(userDetailsJson);
 
@@ -70,10 +69,8 @@ const Header = () => {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
-          <Typography
-
-          >
-            <img className='logoimg' src={Logo} style={{ height: "60px" }} />
+          <Typography>
+            <img className="logoimg" src={Logo} style={{ height: "60px" }} />
           </Typography>
           <Typography
             variant="h6"
@@ -89,8 +86,11 @@ const Header = () => {
               color: "#0171a3",
               textDecoration: "none",
               fontFamily: "inherit",
-              letterSpacing:"0rem"
-            }}>Chetak Mediplast Industry</Typography>
+              letterSpacing: "0rem",
+            }}
+          >
+            Chetak Mediplast Industries
+          </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -147,7 +147,7 @@ const Header = () => {
               textDecoration: "none",
             }}
           >
-           Chetak Mediplast Industry
+            Chetak Mediplast Industries
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
@@ -165,13 +165,19 @@ const Header = () => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                {userDetails?.profilePic ?
+                {userDetails?.profilePic ? (
                   <Avatar sx={{ bgcolor: "#0171a3" }} aria-label="recipe">
-                    <img src={userDetails?.profilePic} alt="Profile-Phot" style={{ width: "40px", height: "40px" }} />
-                  </Avatar> :
+                    <img
+                      src={userDetails?.profilePic}
+                      alt="Profile-Phot"
+                      style={{ width: "40px", height: "40px" }}
+                    />
+                  </Avatar>
+                ) : (
                   <Avatar sx={{ bgcolor: "#0171a3" }} aria-label="recipe">
                     {userDetails?.user?.charAt(0)}
-                  </Avatar>}
+                  </Avatar>
+                )}
               </IconButton>
             </Tooltip>
             <Menu
