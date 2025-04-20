@@ -1,92 +1,119 @@
-import React, { useEffect, useState } from 'react';
-import { styled } from '@mui/material/styles';
-import { Button, Card, CardContent, Grid, Typography } from '@mui/material';
+import React, { useEffect, useState } from "react";
+import {
+  Box,
+  Card,
+  Grid,
+  Typography,
+  Paper,
+  Button,
+} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import './ProductDetails.css';
-import { GetProductByIdData, ProductData } from './ProductSlice';
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 import Carousel from "../../Component/Carousel/Carousel";
+import { GetProductByIdData, ProductData } from "./ProductSlice";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-const useStyles = styled({
-
-  root: {
-    //maxWidth: 600,
-    margin: 'auto',
-    marginTop: 0,
-    padding: 20,
-  },
-  image: {
-    width: '100%',
-    borderRadius: 8,
-    marginBottom: 20,
-  },
-});
 
 const ProductDetails = () => {
-  const classes = useStyles();
   const dispatch = useDispatch();
   const productDetails = useSelector(ProductData)?.getDataById;
-  const { id } = useParams();
+  const { id, orderId } = useParams();
+  const [images, setImages] = useState([]);
+  const [navigateTo, setNavigateTo] = useState("/cmi");
   const lastIdNumber = id.match(/\d+$/)[0];
-  const [images, setImages] = useState();
 
   useEffect(() => {
     if (lastIdNumber) {
-      dispatch(GetProductByIdData(lastIdNumber))
+      dispatch(GetProductByIdData(lastIdNumber));
+      if (orderId) setNavigateTo(`/cmi/orderDetails/${orderId}`);
     }
   }, []);
+
   useEffect(() => {
     if (productDetails) {
-      setImages(productDetails?.attachment);
+      setImages(productDetails?.attachment || []);
     }
   }, [productDetails]);
 
   return (
     <>
+      {/* Header stays as-is */}
       <Typography className="pageHeader" style={{padding:"0px 10px"}}>
-      <Button onClick={()=>window.location.assign('/cmi')} variant="text"><ArrowBackIcon/></Button>
+      <Button onClick={()=>window.location.assign(navigateTo)} variant="text"><ArrowBackIcon/></Button>
     
         Product Details</Typography>
-      <Card className={`product-card ${classes.root}`}>
 
-        <CardContent>
+      {/* Details Section */}
+      <Box>
+        {/* PRODUCT DETAILS SECTION */}
+        <Paper elevation={0} sx={{ p: 3 }}>
           <Grid container spacing={3}>
-            <Grid item sm={4}>
-              <Card style={{ padding: "5px" }}>
+            {/* Image View */}
+            <Grid item xs={12} sm={4}>
+              <Card
+                elevation={3}
+                sx={{
+                  p: 1.5,
+                  borderRadius: 3,
+                  bgcolor: "#fff",
+                  minHeight: 300,
+                }}
+              >
                 <Carousel data={images} />
               </Card>
             </Grid>
 
-            <Grid item sm={8}>
-              <Card style={{ padding: "20px", minHeight: "500px" }}>
-                <Typography variant="h5" component="h2" className="product-name" gutterBottom>
-                  {/* Product Name : */}
+            {/* Product Info */}
+            <Grid item xs={12} sm={8}>
+              <Card
+                elevation={2}
+                sx={{
+                  p: 3,
+                  borderRadius: 3,
+                  bgcolor: "#fff",
+                  height: "100%",
+                }}
+              >
+                <Typography
+                  variant="h5"
+                  fontWeight={600}
+                  color="primary"
+                  gutterBottom
+                >
                   {productDetails?.name}
                 </Typography>
-                <Typography variant="body2" className="product-description" color="textSecondary">
-                  <b>Description : </b>{productDetails?.description}
-                </Typography>
-                <Typography className="product-item" gutterBottom sx={{ mt: 2 }}>
-                  <b>Color : </b>{productDetails?.color}
-                </Typography>
-                <Typography className="product-item" gutterBottom>
-                  <b>Material : </b>{productDetails?.material}
-                </Typography>
-                <Typography className="product-item" gutterBottom>
-                  <b> Size : </b>{productDetails?.material}
-                </Typography>
-                <Typography className="product-item" gutterBottom>
-                  <b> Piece Per Karton : </b>{productDetails?.piecePerKarton}
-                </Typography>
-                <Typography className="product-item" gutterBottom>
-                  <b>Minimum Order Quantity: </b>{productDetails?.minOrder} {productDetails?.minOrderUnit}
+
+                <Typography variant="body2" sx={{ mb: 2 }} color="text.secondary">
+                  <b>Description:</b> {productDetails?.description}
                 </Typography>
 
+                <Grid container spacing={1}>
+                  <Grid item xs={12} sm={6}>
+                    <Typography sx={{ mb: 1 }}>
+                      <b>Color:</b> {productDetails?.color}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <Typography sx={{ mb: 1 }}>
+                      <b>Material:</b> {productDetails?.material}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <Typography sx={{ mb: 1 }}>
+                      <b>Piece Per Carton:</b> {productDetails?.piecePerKarton}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <Typography sx={{ mb: 1 }}>
+                      <b>Minimum Order Quantity:</b> {productDetails?.minOrder}{" "}
+                      {productDetails?.minOrderUnit}
+                    </Typography>
+                  </Grid>
+                </Grid>
               </Card>
             </Grid>
           </Grid>
-        </CardContent>
-      </Card>
+        </Paper>
+      </Box>
     </>
   );
 };

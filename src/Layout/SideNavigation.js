@@ -1,132 +1,142 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
-  Card,
-  Divider,
-  Grid,
-  IconButton,
-  Paper,
-  Tooltip,
-  Typography,
   Box,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
+  CssBaseline,
+  Divider,
+  Drawer,
+  IconButton,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  useTheme,
 } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
-import RefreshIcon from "@mui/icons-material/Refresh";
-import Loader from "../../Component/Loader/Loader";
-import AutoCompleteDropdown from "../../Component/Dropdown/AutoCompleteDropdown";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { GetProductData, ProductData } from "./ProductSlice";
+import {
+  Menu as MenuIcon,
+  ChevronLeft as ChevronLeftIcon,
+  ShoppingCart,
+} from "@mui/icons-material";
+import CategoryTwoToneIcon from "@mui/icons-material/CategoryTwoTone";
+import { styled } from "@mui/material/styles";
+import { NavLink } from "react-router-dom";
 
-const ProductList = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const productList = useSelector(ProductData)?.getData;
-  const [isLoading, setIsLoading] = useState(false);
+const drawerWidth = 240;
+
+const openedMixin = (theme) => ({
+  width: drawerWidth,
+  transition: theme.transitions.create("width", {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.enteringScreen,
+  }),
+  overflowX: "hidden",
+});
+
+const closedMixin = (theme) => ({
+  transition: theme.transitions.create("width", {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  overflowX: "hidden",
+  width: `calc(${theme.spacing(7)} + 1px)`,
+  [theme.breakpoints.up("sm")]: {
+    width: `calc(${theme.spacing(8)} + 1px)`,
+  },
+});
+
+const DrawerHeader = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "flex-end",
+  padding: theme.spacing(0, 1),
+  ...theme.mixins.toolbar,
+}));
+
+const CustomDrawer = styled(Drawer, {
+  shouldForwardProp: (prop) => prop !== "open",
+})(({ theme, open }) => ({
+  width: drawerWidth,
+  flexShrink: 0,
+  whiteSpace: "nowrap",
+  boxSizing: "border-box",
+  ...(open && {
+    ...openedMixin(theme),
+    "& .MuiDrawer-paper": openedMixin(theme),
+  }),
+  ...(!open && {
+    ...closedMixin(theme),
+    "& .MuiDrawer-paper": closedMixin(theme),
+  }),
+}));
+
+const menuItems = [
+  { label: "Products", path: "/cmi", icon: <CategoryTwoToneIcon /> },
+  { label: "Orders", path: "/cmi/order", icon: <ShoppingCart /> },
+];
+
+export default function MiniDrawer() {
+  const theme = useTheme();
+  const [open, setOpen] = useState(true);
+  const [activeMenu, setActiveMenu] = useState("/cmi");
 
   useEffect(() => {
-    setIsLoading(true);
-    dispatch(GetProductData());
+    const path =
+      "/" + window.location.pathname.split("/", 3).filter(Boolean).join("/");
+    if (path === "/cmi/orderDetails") {
+      setActiveMenu("/cmi/order");
+    } else if (path === "/cmi/productDetails") {
+      setActiveMenu("/cmi");
+    } else {
+      setActiveMenu(path);
+    }
   }, []);
 
-  useEffect(() => {
-    if (productList) setIsLoading(false);
-  }, [productList]);
-
-  const handleRefresh = () => {
-    window.location.reload();
-  };
-
-  const handleView = (productId) => {
-    navigate(`/cmi/productDetails/${productId}`);
+  const toggleDrawer = () => {
+    setOpen(!open);
   };
 
   return (
-    <>
-      {isLoading && <Loader />}
-      <Typography className="pageHeader">Product List</Typography>
-      <Card>
-        <Grid container sx={{ p: 2 }} spacing={2}>
-          <Grid item sm={7}></Grid>
-          <Grid item sm={5}>
-            <Paper
-              component="form"
-              sx={{ p: "2px 4px", display: "flex", alignItems: "center" }}
+    <Box sx={{ display: "flex", mt: "64px" }}>
+      <CssBaseline />
+      <CustomDrawer variant="permanent" open={open}>
+        <DrawerHeader>
+          {open && (
+            <Box sx={{ px: 2, fontWeight: "bold", fontSize: "1rem" }}>Menu</Box>
+          )}
+          <IconButton onClick={toggleDrawer}>
+            {open ? <ChevronLeftIcon /> : <MenuIcon />}
+          </IconButton>
+        </DrawerHeader>
+        <Divider />
+        <List sx={{ mt: 1 }}>
+          {menuItems.map((item) => (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              style={{ textDecoration: "none", color: "inherit" }}
+              onClick={() => setActiveMenu(item.path)}
             >
-              {/* Optional dropdown or search filter can be added here */}
-              <Box flexGrow={1}></Box>
-              <Tooltip title="Refresh Products">
-                <IconButton
-                  color="primary"
-                  sx={{ p: "10px" }}
-                  onClick={handleRefresh}
-                >
-                  <RefreshIcon />
-                </IconButton>
-              </Tooltip>
-            </Paper>
-          </Grid>
-
-          <Grid item sm={12}>
-            <Paper>
-              <TableContainer sx={{ maxHeight: "65vh" }}>
-                <Table stickyHeader size="small">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell
-                        sx={{ backgroundColor: "#f0f0f0", fontWeight: "bold" }}
-                      >
-                        Product ID
-                      </TableCell>
-                      <TableCell
-                        sx={{ backgroundColor: "#f0f0f0", fontWeight: "bold" }}
-                      >
-                        Name
-                      </TableCell>
-                      <TableCell
-                        sx={{ backgroundColor: "#f0f0f0", fontWeight: "bold" }}
-                        align="center"
-                      >
-                        Minimum Order
-                      </TableCell>
-                      <TableCell
-                        sx={{ backgroundColor: "#f0f0f0", fontWeight: "bold" }}
-                        align="center"
-                      >
-                        Status
-                      </TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {productList?.map((product) => (
-                      <TableRow
-                        key={product.id}
-                        hover
-                        sx={{ cursor: "pointer" }}
-                        onClick={() => handleView(product.id)}
-                      >
-                        <TableCell>{product.id}</TableCell>
-                        <TableCell>{product.name}</TableCell>
-                        <TableCell align="center">
-                          {product.minimum_order}
-                        </TableCell>
-                        <TableCell align="center">{product.status}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </Paper>
-          </Grid>
-        </Grid>
-      </Card>
-    </>
+              <ListItemButton
+                selected={activeMenu === item.path}
+                sx={{
+                  borderRadius: 2,
+                  mx: 1,
+                  mb: 1,
+                  "&.Mui-selected": {
+                    backgroundColor: theme.palette.primary.main,
+                    color: "#fff",
+                    "& .MuiListItemIcon-root": {
+                      color: "#fff",
+                    },
+                  },
+                }}
+              >
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemText primary={item.label} />
+              </ListItemButton>
+            </NavLink>
+          ))}
+        </List>
+      </CustomDrawer>
+    </Box>
   );
-};
-
-export default ProductList;
+}
